@@ -1,4 +1,4 @@
-import React, { useState, Fragment } from "react";
+import React, { useState, Fragment, useEffect } from "react";
 import { nanoid } from "nanoid";
 import "./homepage.css";
 import data from "./mock-data.json";
@@ -6,10 +6,16 @@ import ReadOnlyRow from "./ReadOnlyRow";
 import EditableRow from "./EditableRow";
 
 import Button from "@mui/material/Button";
+import axios from "axios";
 
-const Homepage = ({setLoginUser}) => {
+
+
+const Homepage = ({ User,setLoginUser }) => {
   const [contacts, setContacts] = useState(data);
+  
+
   const [addFormData, setAddFormData] = useState({
+    user: "",
     info: "",
     cost: "",
     startloc: "",
@@ -23,6 +29,7 @@ const Homepage = ({setLoginUser}) => {
   });
 
   const [editFormData, setEditFormData] = useState({
+    user: "",
     info: "",
     cost: "",
     startloc: "",
@@ -37,6 +44,34 @@ const Homepage = ({setLoginUser}) => {
 
   const [editContactId, setEditContactId] = useState(null);
 
+
+  const rechange = () => {
+    axios.post("http://localhost:3001/con", User).then((res) => {
+      console.log("Call for dataBase UseEffect");
+      console.log(res.data);
+      let newArr = [...res.data];
+      setContacts(newArr);
+    });
+    console.log("Rechange Called")
+  }
+
+
+  useEffect(() => {
+    console.log("Use Effect Triggered");
+    rechange();
+    console.log(contacts);
+
+
+    // const newFormData = { ...editFormData };
+    // axios.post("http://localhost:3001/add", newFormData).then((res) => {
+    //   console.log("Call for add - Edit ");
+    //   console.log(res.data);
+    // });
+
+  }, []);
+
+
+
   const handleAddFormChange = (event) => {
     event.preventDefault();
 
@@ -49,6 +84,29 @@ const Homepage = ({setLoginUser}) => {
     setAddFormData(newFormData);
   };
 
+  const handleEditFormChangeSubmit = (event) => {
+    event.preventDefault();
+
+    const fieldName = event.target.getAttribute("name");
+    const fieldValue = event.target.value;
+
+    const newFormData = { ...editFormData };
+    const toDelete={...newFormData}
+    newFormData[fieldName] = fieldValue;
+
+    // axios.post("http://localhost:3001/del", toDelete).then((res) => {
+    //   console.log("Call for Delete - Edit ");
+    //   console.log(res.data);
+    // });
+
+    // axios.post("http://localhost:3001/add", newFormData).then((res) => {
+    //   console.log("Call for add - Edit ");
+    //   console.log(res.data);
+    // });
+
+    setEditFormData(newFormData);
+  };
+
   const handleEditFormChange = (event) => {
     event.preventDefault();
 
@@ -56,38 +114,47 @@ const Homepage = ({setLoginUser}) => {
     const fieldValue = event.target.value;
 
     const newFormData = { ...editFormData };
+    const toDelete = { ...newFormData };
     newFormData[fieldName] = fieldValue;
-
     setEditFormData(newFormData);
   };
+  
 
   const handleAddFormSubmit = (event) => {
     event.preventDefault();
 
     const newContact = {
       id: nanoid(),
+      user: User.email,
       info: addFormData.info,
-      cost: addFormData.cost,
+      cost: (addFormData.cost),
       startloc: addFormData.startloc,
       destination: addFormData.destination,
       SfullName: addFormData.SfullName,
-      SphoneNumber: addFormData.SphoneNumber,
+      SphoneNumber: (addFormData.SphoneNumber),
       Saddress: addFormData.Saddress,
 
       RfullName: addFormData.RfullName,
-      RphoneNumber: addFormData.RphoneNumber,
+      RphoneNumber: (addFormData.RphoneNumber),
       Raddress: addFormData.Raddress,
-      
     };
 
     const newContacts = [...contacts, newContact];
     setContacts(newContacts);
+    
+    axios.post("http://localhost:3001/add", newContact).then((res) => {
+      console.log("Call for dataBase Added");
+      console.log(res.data.message);
+    });
+
   };
+
 
   const handleEditFormSubmit = (event) => {
     event.preventDefault();
 
     const editedContact = {
+      user: User.email,
       id: editContactId,
       info: editFormData.info,
       cost: editFormData.cost,
@@ -108,9 +175,19 @@ const Homepage = ({setLoginUser}) => {
 
     newContacts[index] = editedContact;
 
+    axios.post("http://localhost:3001/del", contacts[index]).then((res) => {
+      console.log("Call for Delete - Edit ");
+      console.log(res.data);
+    });
+
+    axios.post("http://localhost:3001/add", editedContact).then((res) => {
+      console.log("Call for add - Edit ");
+      console.log(res.data);
+    });
+    rechange();
     setContacts(newContacts);
     setEditContactId(null);
-  };
+  };;
 
   const handleEditClick = (event, contact) => {
     event.preventDefault();
@@ -142,11 +219,21 @@ const Homepage = ({setLoginUser}) => {
 
     const index = contacts.findIndex((contact) => contact.id === contactId);
 
-    newContacts.splice(index, 1);
+    const toDelete=newContacts[index]
 
-    setContacts(newContacts);
+    // newContacts.splice(index, 1);
+    console.log(toDelete)
+    axios.post("http://localhost:3001/del", toDelete).then((res) => {
+      console.log("Call for Delete ");
+      console.log(res.data);
+      rechange();
+    });
+    rechange();
+
+
+    // setContacts(newContacts);
   };
-
+  
   return (
     <div className="boss">
       <div className="main_home">
@@ -184,6 +271,7 @@ const Homepage = ({setLoginUser}) => {
                         <EditableRow
                           editFormData={editFormData}
                           handleEditFormChange={handleEditFormChange}
+                          handleEditFormChangeSubmit={handleEditFormChangeSubmit}
                           handleCancelClick={handleCancelClick}
                         />
                       ) : (
@@ -274,9 +362,7 @@ const Homepage = ({setLoginUser}) => {
                 onChange={handleAddFormChange}
               />
 
-              <button type="submit">
-                 Add 
-              </button>
+              <button type="submit">Add</button>
             </form>
           </div>
         </div>

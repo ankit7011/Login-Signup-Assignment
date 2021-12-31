@@ -4,6 +4,7 @@ const EditableRow = ({
   editFormData,
   handleEditFormChange,
   handleCancelClick,
+  handleEditFormChangeSubmit,
 }) => {
   return (
     <tr>
@@ -108,7 +109,9 @@ const EditableRow = ({
         ></input>
       </td>
       <td>
-        <button type="submit">Save</button>
+        <button type="submit" onChange={handleEditFormChange}>
+          Save
+        </button>
         <button type="button" onClick={handleCancelClick}>
           Cancel
         </button>

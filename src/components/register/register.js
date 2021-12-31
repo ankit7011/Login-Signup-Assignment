@@ -33,12 +33,10 @@ const Register = () => {
         
         if (name && email && password && (password===reEnterPassword))
         {
-            axios
-              .post("https://log2.herokuapp.com/register", user)
-              .then((res) => {
-                alert(res.data.message);
-                navigate("/login");
-              });
+            axios.post("http://localhost:3001/register", user).then((res) => {
+              alert(res.data.message);
+              navigate("/login");
+            });
             
         }
         else

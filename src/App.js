@@ -17,12 +17,12 @@ function App () {
       <div className="App">
         <Router>
           <Routes>
-            <Route exact path="/" element={  user&&user._id ? <Homepage setLoginUser={setLoginUser} /> : <Login setLoginUser={setLoginUser} /> } />
+            <Route exact path="/" element={  user&&user._id ? <Homepage User={user} setLoginUser={setLoginUser} /> : <Login setLoginUser={setLoginUser} /> } />
             <Route exact path="/login" element={<Login setLoginUser={setLoginUser} />} />
             <Route exact path="/register" element={<Register />} />
           </Routes>
         </Router>
-        {/* <Homepage setLoginUser={setLoginUser} /> */}
+        {/* <Homepage User={user} setLoginUser={setLoginUser} /> */}
       </div>
     );
 
