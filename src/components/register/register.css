@@ -1,13 +1,58 @@
 
+
+*, *:before, *:after {
+	box-sizing: border-box;
+}
+
+
+body, html {
+  height: 100%;
+}
+ .main_r
+ {
+     height: 100%;
+     width: 100%;
+     color: red;
+     background-image: url("pic.jpg");
+    background-repeat: no-repeat;
+    background-size: 1540px 800px;
+     display: cen;
+     justify-content: center;
+ }
+
 .register {
+    /* 
+    
+    width: 200px;
+    height: 200px;
+    */
+	--def: #96B7C4; 	
+	--inv: #fff;
+    position: absolute;
     width: 400px;
+    height: 450px;
+    top: 50%;
+    left: 50%;
+    margin-top: -200px;
+    margin-left: -200px;
     background: #fff;
     border: 1px solid #dddfe2;
     box-shadow: 0 2px 4px rgb(0 0 0 / 10%), 0 8px 16px rgb(0 0 0 / 10%);
     border-radius: 8px;
     padding: 1rem;
-    align-items: center;
-    text-align: center;
+    
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+    background-color: rgba(35, 35, 35, .5);
+    transition: transform .2s;
+	/* background-image: linear-gradient(-25deg, #616161 0%, #96B7C4 100%); */
+}
+
+.register:hover
+{
+    transform: scale(1.01);
 }
 
 .register > input {
@@ -19,16 +64,86 @@
     padding: 0.5rem 0.75rem;
     width: 92%;
     font-size: 1rem;
+
 }
 
-.register > .button {
-    background: #1877f2;
-    border: 1px solid #1877f2;
-    color: #fff;
-    font-size: 1.25rem;
-    padding: 0.5rem;
-    margin: 0.5rem 0;
-    border-radius: 8px;
-    outline: none;
-    cursor: pointer;
+.em~.focus-border {
+	position: absolute;
+	bottom: 0;
+	left: 50%;
+	width: 0;
+	height: 3px;
+	background-color:3399FF;
+	transition: 0.4s;
 }
+ 
+.em:focus~.focus-border {
+	width: 100%;
+	transition: 0.4s;
+	left: 0;
+}
+
+.pw~.focus-border {
+	position: absolute;
+	bottom: 0;
+	left: 50%;
+	width: 0;
+	height: 2px;
+	background-color: #3399FF;
+	transition: 0.4s;
+}
+ 
+.pw:focus~.focus-border {
+	width: 100%;
+	transition: 0.4s;
+	left: 0;
+}
+
+
+
+.register>.button {	
+	position: relative;	
+	padding: 1.4rem 4.2rem;
+	padding-right: 3.1rem;
+	font-size: 1.2rem;
+	color: var(--inv);
+	letter-spacing: 1.1rem;
+	text-transform: uppercase;
+	transition: all 500ms cubic-bezier(0.77, 0, 0.175, 1);	
+	cursor: pointer;
+	user-select: none;
+}
+
+
+
+
+.button:hover{
+  letter-spacing: 12px;
+}
+
+
+
+.register>.button:before, .register>.button:after {
+	content: '';
+	position: absolute;	
+	transition: inherit;
+	z-index: -1;
+}
+
+.register>.button:hover {
+	color: var(--def);
+	transition-delay: .1s;
+}
+
+.register>.button:hover:before {
+	transition-delay: 0s;
+
+}
+
+.register>.button:hover:after {
+	background: var(--inv);
+	transition-delay: 0.3s;
+}
+
+
+
