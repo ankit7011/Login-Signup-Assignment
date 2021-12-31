@@ -21,7 +21,7 @@ const Login = ({ setLoginUser } ) => {
     });
   };
   const login = () => {
-    axios.post("http://localhost:3001/login", user).then((res) => {
+    axios.post("https://log2.herokuapp.com//login", user).then((res) => {
       // alert(res.data.message);
       setLoginUser(res.data.user);
       navigate("/");
