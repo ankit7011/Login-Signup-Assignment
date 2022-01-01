@@ -21,9 +21,10 @@ const Login = ({ setLoginUser } ) => {
     });
   };
   const login = () => {
-    axios.post("https://log2.herokuapp.com//login", user).then((res) => {
+    axios.post("https://login-sin.herokuapp.com/login", user).then((res) => {
       // alert(res.data.message);
       setLoginUser(res.data.user);
+      // console.log(res.data)
       navigate("/");
     });
   };

@@ -46,17 +46,12 @@ const Homepage = ({ User,setLoginUser }) => {
 
 
   const rechange = () => {
-    axios
-      .post(
-        "mongodb+srv://ankit:Onetheway123@cluster0.t5vm4.mongodb.net/myaLoginRegisterDB?retryWrites=true&w=majority",
-        User
-      )
-      .then((res) => {
-        console.log("Call for dataBase UseEffect");
-        console.log(res.data);
-        let newArr = [...res.data];
-        setContacts(newArr);
-      });
+    axios.post("https://login-sin.herokuapp.com/con", User).then((res) => {
+      console.log("Call for dataBase UseEffect");
+      console.log(res.data,"My res.data" );
+      let newArr = [...res.data];
+      setContacts(newArr);
+    });
     console.log("Rechange Called")
   }
 
@@ -68,7 +63,7 @@ const Homepage = ({ User,setLoginUser }) => {
 
 
     // const newFormData = { ...editFormData };
-    // axios.post("http://localhost:3001/add", newFormData).then((res) => {
+    // axios.post("https://login-sin.herokuapp.com/add", newFormData).then((res) => {
     //   console.log("Call for add - Edit ");
     //   console.log(res.data);
     // });
@@ -99,12 +94,12 @@ const Homepage = ({ User,setLoginUser }) => {
     const toDelete={...newFormData}
     newFormData[fieldName] = fieldValue;
 
-    // axios.post("http://localhost:3001/del", toDelete).then((res) => {
+    // axios.post("https://login-sin.herokuapp.com/del", toDelete).then((res) => {
     //   console.log("Call for Delete - Edit ");
     //   console.log(res.data);
     // });
 
-    // axios.post("http://localhost:3001/add", newFormData).then((res) => {
+    // axios.post("https://login-sin.herokuapp.com/add", newFormData).then((res) => {
     //   console.log("Call for add - Edit ");
     //   console.log(res.data);
     // });
@@ -147,7 +142,7 @@ const Homepage = ({ User,setLoginUser }) => {
     const newContacts = [...contacts, newContact];
     setContacts(newContacts);
     
-    axios.post("https://log2.herokuapp.com/add", newContact).then((res) => {
+    axios.post("https://login-sin.herokuapp.com/add", newContact).then((res) => {
       console.log("Call for dataBase Added");
       console.log(res.data.message);
     });
@@ -180,12 +175,12 @@ const Homepage = ({ User,setLoginUser }) => {
 
     newContacts[index] = editedContact;
 
-    axios.post("https://log2.herokuapp.com/del", contacts[index]).then((res) => {
+    axios.post("https://login-sin.herokuapp.com/del", contacts[index]).then((res) => {
       console.log("Call for Delete - Edit ");
       console.log(res.data);
     });
 
-    axios.post("https://log2.herokuapp.com/add", editedContact).then((res) => {
+    axios.post("https://login-sin.herokuapp.com/add", editedContact).then((res) => {
       console.log("Call for add - Edit ");
       console.log(res.data);
     });
@@ -228,7 +223,7 @@ const Homepage = ({ User,setLoginUser }) => {
 
     // newContacts.splice(index, 1);
     console.log(toDelete)
-    axios.post("https://log2.herokuapp.com/del", toDelete).then((res) => {
+    axios.post("https://login-sin.herokuapp.com/del", toDelete).then((res) => {
       console.log("Call for Delete ");
       console.log(res.data);
       rechange();
